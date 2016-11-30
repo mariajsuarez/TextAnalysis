@@ -1,0 +1,528 @@
+IntDict concordance;
+
+// ESCRITURA  //
+String myText = "Escribe aquí";
+int textControl = 0;
+
+// PALABRAS CLAVE (en ingles)  //
+// ---- perception
+String[] vision = {"see", "sees", "seeing", "saw", "sights", "visions", "stare", "stares", "staring" ,"stared","visuals", "gaze", "gazes", "gazing", "gazed", "watch", "watches", "watching", "watched", "views", "viewing", "viewed", "peeks", "peeking", "peeked"};
+String[] family = {"family", "families", "marriage", "mother", "mom", "father", "dad", "sister", "brother", "cousin", "aunt", "uncle", "nephew", "niece", "grandmother", "grandfather", "sons", "daughters", "grandsons", "granddaughters","ancestors", "parents", "grandparents", "in-laws"};
+String[] awareness = {"aware", "beware", "conscious", "sense", "sensing", "sensed", "notice", "noticing", "noticed", "observe","observing", "ob- served", "realize", "realizing", "realized", "discover", "discovering", "discovered"};
+String[] hearing = {"hearing", "hears", "hearing", "heard", "listen", "listens", "listening", "listened", "sound", "sounds", "sounding", "sounded", "noise", "noises", "noisy", "loud", "loudly"};
+String[] touch = {"touch", "touches", "touching", "touched", "holds", "holding", "held", "hug", "hugs", "hugging", "hugged", "embrace", "embraces", "embracing", "embraced"};
+String[] smell = {"smell", "smells", "smelling", "smelled", "odor", "odors", "aroma", "aromas", "stink", "stinks", "stank", "stinking", "stench", "stenches"};
+String[] taste = {"taste", "tastes", "tasting", "tasted", "sweet", "salty", "bitter", "salty", "delicious", "disgusting"};
+String[] perceptualIntensity = {"very", "intense", "strong", "powerful", "tremendous", "extreme", "bright", "radiant", "brilliant", "shine", "glow", "overwhelm"};
+String[] chromaticColor = {"red", "reddish", "orange", "yellow", "blue", "indigo", "violet", "purple", "green"};
+String[] achromaticColor = {"black", "gray", "white"};
+String[] esthetics = {"beauty", "beautiful", "beauties", "lovely", "attractive", "elegant", "gorgeous", "magnificent", "handsome", "cute", "fashionable", "excellent", "splendid", "sublime", "appealing", "nice", "looking", "well-built", "good" };
+// ---- emotions
+String[] fear = {"apprehend", "apprehensive", "apprehension", "afraid", "fear", "feared", "fearing", "fearful", "anxiety", "anxious", "guilt", "guilty", "embarrass", "embarrassed", "embarrasses", "embarrassing", "terrify", "terrifies", "terrified", "horrify", "horrifies", "horrified","frighten", "frightens", "frightened","scares", "scared", "scaring","worry", "worries", "worried", "worrying", "nervous", "nervously", "nervousness","panic", "panics", "panicked", "panicking", "alarmed", "uneasy", "upset", "remorseful", "regret", "regretted", "regretful", "sorry", "apologetic", "ashamed"};
+String[] anger = {"anger", "angers", "angered", "angry","annoys", "annoyed", "annoying","irritat","mad","provoked","furious","enrag", "enrage", "enraged", "enrages", "enraging","incensed","disgust", "disgusts", "disgusted","indignant","peeved","infuriate|", "infuriates", "infuriated", "infuriating", "pissed"};
+String[] sadness = {"sad","sadly", "sadness","disappointed", "disappointing","distresses", "distressed", "distressing","depressing", "depressed","loneliness", "lonely","miserable","hopeless",  "hopelessness","heartbroken","unhappy", "unhappily", "unhappiness"};
+String[] confusion = {"confuse", "confuses", "confused", "confusing", "confusion", "puzzled", "puzzling","perplex", "perplexes", "perplexed", "perplexing","bewilders", "bewildered", "bewildering", "bewilderment","undecided","mystify", "mystified", "mystifies", "mystifying","surprising", "surprises", "surprised", "astonish", "astonishes", "astonished", "astonishing","amazed", "awestruck"};
+String[] happines = {"happy", "happines", "contented", "content","pleased", "relieved", "amused", "cheerfully", "cheerful","glad","relaxed","gratified","wonderful","elated","joyful","joyfully","exhilarate", "exhilarates", "exhilarated", "exhilarating","ecstasy", "ecstatic"};
+// ---- cognition
+String[] speech = {"speech", "speeches", "speak", "speaks",  "speaking", "spoke", "talk", "talks", "talking", "talked", "say", "says", "saying", "said", "talk", "talks", "talking", "talked", "discusse", "discusses", "discussing", "discussed", "whisper", "whispers", "whispering", "whispered", "yell", "yells", "yelling", "yelled", "shout", "shouts", "shouting", "shouted", "call", "calls", "calling", "called", "utter", "utters", "uttering", "uttered", "mention", "mentions", "mentioning", "mentioned"};
+String[] imagination = {"imagination","expectation", "anticipation", "prediction", "fantasy", "intuition", "imagine", "imagines", "imagining", "imagined", "envision", "envisions", "envisioning", "envisioned", "expect", "expects", "expecting", "expected", "anticipate", "anticipates", "anticipating", "anticipated", "predict", "predicts", "predicting", "predicted", "foresees?", "foreseeing", "foresaw", "forecasts?", "forecasting", "forecasted", "await", "awaits", "awaiting", "awaited", "pretend", "pretends",  "pretending", "pretended", "fantasize", "fantasizes", "fantasizing", "fantasized", "intuit", "intuits", "intuiting", "intuited"};
+String[] planning = {"plan", "plans", "planning", "planned", "prepare", "prepares",  "preparing", "prepared", "intend", "intends","intending", "intended", "design", "designs", "designing", "designed", "organize", "organizes", "organizing", "organized", "arrange", "arranges", "arranging", "arranged", "invent", "invents", "inventing", "invented"};
+String[] effort = {"effort", "struggle", "efforts", "struggl", "struggle", "patience", "willpower", "persistent", "determined", "concentrate",  "concentrates", "concentrating", "concentrated", "focus", "focuses", "focusing", "focused", "meditate", "meditates", "meditating", "meditated", "contemplate", "contemplate?", "contemplating", "contemplated", "pray", "prays", "praying", "prayed"};
+String[] choice = {"choice", "choose", "decide", "choices", "chooses", "decides","deciding", "decided", "accept", "accepts", "accepting", "accepted", "approve", "approves", "approving", "approved", "prefer", "prefers", "preferring", "preferred", "judge",  "judges", "judging", "judged", "select", "selects", "selecting", "selected", "recommend", "recommends", "recommending", "recommended"};
+String[] readingWriting = {"read", "reads", "reading", "letter", "sentence", "paragraph", "chapter", "book", "magazine", "letters", "sentences", "paragraphs", "chapters", "books", "magazines", "newspaper", "write", "newspapers", "writes", "writing", "wrote" };
+// ---- nature
+String[] weather = {"weather", "tornado", "hurricane", "storm", "storms", "thunder", "lightning", "blizzard", "wind", "winds", "windy", "gust", "gusts", "rain", "rains", "rainy", "raining", "rained", "snow", "snows", "snowing", "snowed", "fog", "foggy", "sunny", "sunshine"};
+String[] fire = {"fire", "fires", "fiery", "heat", "heats", "heating", "heated", "flame", "flames", "flaming", "flamed", "burn", "burns", "burning", "burned", "combustible", "combustion", "sun", "suns", "sunny", "star", "stars", "starry", "volcano", "volcanic", "lava" };
+String[] water = {"water", "waters", "watery", "watering", "watered", "wet", "wets", "moist", "ocean", "sea", "lake", "river", "pond", "seas", "lakes", "rivers", "ponds", "stream", "streams", "creek", "rain", "snow", "ice", "creeks", "rains", "snows", "ices", "icy", "sleet", "sleets", "fog", "foggy", "mist", "mists"};
+String[] air = {"black", "gray", "white"};
+String[] earth = {"black", "gray", "white"};
+String[] flying = {"fly", "flying"};
+String[] falling ={"fall", "falling"};
+// ---- characters
+String[] animals = {"animal", "bird", "boar", "chicken", "deer", "cow", "elephant", "fish", "horse", "fox", "pig", "pheasant", "serpent", "snake", "squirrel", "turkey", "tiger", "turtle", "wolf", "bear", "ape", "monkey", "gorilla", "lion", "duck", "crocodile", "giraffe", "python", "pony", "ponies", "colt", "mare", "turtle", "alligator", "frog", "platypus", "rhino", "hippo", "dinosaur", "mouse", "mice", "rat", "rodent", "owl", "spider", "hamster", "skunk", "rabbit", "worm", "lizard", "bee", "insect", "bug", "goose", "geese", "eagle", "hawk", "raven", "sparrow", "crow", "canaries", "zebra", "antelope", "bull", "sheep", "lamb", "goat", "panther", "leopard", "bobcat", "jackal", "hyena", "cat", "kitten", "kitty", "kittie", "feline","donkey", "raccoon", "dog", "doggy", "doggie", "puppy", "puppies", "canine","vulture", "puma", "lynx", "gerbel", "hamster", "seal", "whale", "dolphin", "animals", "birds", "boars", "chickens", "cows", "elephants", "fishes", "horses", "foxes", "pigs", "pheasants", "serpents", "snakes", "squirrels", "turkeys", "tigers", "turtles", "wolfves", "bears", "apes", "monkeys", "gorillas", "lions", "ducks", "crocodiles", "giraffes", "pythons", "colts", "mares", "turtles", "alligators", "frogs", "platypus", "rhinos", "hippos", "dinosaurs", "rats", "rodents", "owls", "spiders", "hamsters", "skunks", "rabbits", "worms", "lizards", "bees", "insects", "bugs", "eagles", "hawks", "ravens", "sparrows", "crows", "canaries", "zebras", "antelopes", "bulls", "lambs", "goats", "panthers", "leopards", "bobcats", "jackals", "hyenas", "cats",  "kittens", "kittys", "kitties", "felines","donkeys", "raccoons", "doggys", "dogs", "doggies", "puppys", "puppiess", "canines","vultures", "pumas", "lynxes", "gerbels", "hamsters", "seals", "whales", "dolphins"};
+String[] fantasticsBeings = {"vampire", "ghost", "ghoul", "spirit", "demon", "devil", "monster", "werewolf", "werewolve", "zombie", "ogre", "troll", "fairy", "fairies", "alien", "extraterrestrial", "robot", "cyborg", "android", "witch", "witches", "wizard", "fiend", "vampires", "ghosts", "ghouls", "spirits", "demons", "devils", "monsters", "werewolfs", "werewolves", "zombies", "ogres", "trolls", "aliens", "extraterrestrials", "robots", "cyborgs", "androids", "wizards"};
+// ---- social interaction
+String[] friendly = {"greet", "greets", "greeting", "greeted", "welcome",  "welcomes", "welcoming", "welcomed", "thank", "thanks", "thanking", "thanked", "help", "helps", "helping", "helped", "advise", "advises", "advising", "advised", "assist", "assists", "assisting", "assisted", "encourage", "encourages", "encouraging", "encouraged", "save", "saves", "saving", "saved", "rescue", "rescues", "rescuing", "rescued", "praise", "praises", "praising", "praised", "congratulate",  "congratulates", "congratulating", "congratulated", "congratulation","congratulations", "admire", "admires", "admiring", "admired", "love", "loves", "loving", "loved", "friendly", "friendliness", "friend", "boyfriend", "girlfriend", "hug", "friends", "boyfriends", "girlfriends", "hugs", "hugging", "hugged", "embrace", "embraces", "embracing", "lend", "lends", "lending", "loan", "loans", "loaning", "loaned", "marry", "marrie", "marries", "marrying", "marriage", "wedding", "honeymoon", "love", "loves", "loving", "offer", "offers","offering", "commends?", "commends", "commended", "commending", "pity", "pitie", "pities", "pitying", "warn", "warns", "warning", "warned", "protect", "protects","protecting", "protected", "acclaim", "acclaims", "acclaiming", "acclaimed", "cheer", "cheers", "cheering", "cheered", "applaud", "applauds", "applauding", "applauded", "invite", "invites", "inviting", "invited", "compliment", "compliments","complimenting", "complimented", "visit", "visits", "visiting", "visited", "honors?", "honors", "honoring", "honored", "engaged", "impressed", "generous", "generosity", "affectionate", "intimate", "ovation", "hello", "goodbye", "guest", "host", "guests", "hosts", "hostess", "party", "parties", "partying", "gift", "gifts", "social"};
+String[] physicalAgression = {"kill", "kills", "killing", "killed", "murder", "murders", "murdering", "murdered", "punch", "punches", "punching", "punched", "shoot", "shoots", "shooting", "shot", "stab", "stabs", "stabbing", "stabbed", "fight", "fights", "fighting", "fought", "violent", "aggressive", "sadistic", "vicious", "pugnacious", "cruel", "antagonistic", "malice", "malicious ", "attack", "attacks", "attacking", "attacked", "rob", "robs", "robbing", "robbed", "captures?", "capturing", "captured", "rape", "rapes", "raping", "raped", "war", "battle", "wars", "battles","battling", "battling", "invade", "invades", "invading", "invaded", "quarrel", "quarrels", "quarreling", "quarreled", "stab", "stabs", "stabbing", "stabbed", "enemy", "enemies", "prisoner", "thief", "burglar", "criminal", "gangster", "mafia", "nazi", "jail", "prison", "hurl", "hurls", "hurling", "hurled", "force", "hit", "hits", "hitting", "struggle", "struggles", "struggling", "pounce", "pounces", "pouncing", "bite", "bites", "biting", "bitten", "pursue", "pursues", "pursuing"};
+String[] sexual = {"lover", "necking", "kiss", "kisses", "kissing", "kissed", "sex", "sexy", "sexual", "sexuality", "flirt", "flirts", "flirting", "flirted", "arousal", "arousing", "erotic", "sensual", "horny", "seduce", "seducing", "masturbate", "erect", "erection", "incest", "incestuous", "orgasm", "ejaculate", "emission", "nude", "naked", "unclothed", "undress", "disrobe"};
+// ---- common cultures
+String[] school = {"school", "schools", "schooling", "educate", "educates", "education", "classroom", "student", "teacher", "professor", "college", "classrooms", "students", "teachers", "professors", "colleges", "university", "universities", "academy", "academies", "kindergarten", "graduate", "graduation", "kindergartens", "graduates", "graduations", "library", "libraries", "textbook", "textbooks", "academic", "test", "academics", "tests", "testing", "tested", "exam", "exams", "quiz", "quizzes"};
+String[] transportation = {"truck", "car", "automobile", "boat", "ship", "sailboat", "bicycle", "bike", "motorcycle", "airplane", "plane", "skateboard", "train", "subway", "cart", "elevator", "escalator", "trucks", "cars", "automobiles", "bus", "buses", "boats", "ships", "sailboats", "bicycles", "bikes", "motorcycles", "airplanes", "planes", "skateboards", "trains", "subways", "carts", "elevators", "escalators"};
+String[] technology = {"technology", "technologies", "computer", "printer", "machine", "computers", "printers", "machines", "machinery", "engine", "mechanism", "engines", "mechanisms", "email", "internet", "website", "fax", "modem", "typewriter", "telephone", "cellphone", "television", "tv", "movie", "film", "video", "dvd", "radio", "ipod", "iphone", "telescope", "microscope","typewriters", "telephones", "cellphones", "televisions", "tvs", "movies", "films", "videos", "dvds", "radios", "ipods", "iphones", "telescopes", "microscopes"};
+String[] money = {"money", "cash", "dollar", "cent", "coin", "cents", "coins", "wealth", "rich", "poverty", "buy", "sell", "purchase", "expense", "expensive", "cost", "costly", "finance", "financial", "business", "invest", "economic", "economics"};
+String[] christianity = {"jesus", "christ", "god", "christian", "christians", "christianity", "christmas", "religious", "church", "churches", "cathedral", "cathedrals", "heaven", "hell", "devil", "devils", "demon", "demons", "satan", "bible", "pray", "prays", "praying", "prayed", "nun", "nuns",  "monk", "monks", "pope", "sacred", "holy", "altar", "priest", "priests", "minister", "bishop", "sermon", "ministers", "bishops", "sermons", "crucifix"};
+String[] death = {"death", "dead", "die", "dying", "deceased", "lifeless"};
+
+
+// IMAGENES CONCEPTOS //
+// ---- perception
+PImage visionImg;
+PImage familyImg;
+PImage awarenessImg;
+PImage hearingImg;
+PImage touchImg;
+PImage smellImg;
+PImage tasteImg;
+PImage perceptualIntensityImg;
+PImage chromaticColorImg;
+PImage achromaticColorImg;
+PImage estheticsImg;
+// ---- emotions
+PImage fearImg;
+PImage angerImg;
+PImage sadnessImg;
+PImage confusionImg;
+PImage happinesImg;
+// ---- cognition
+PImage speechImg;
+PImage imaginationImg;
+PImage planningImg;
+PImage effortImg;
+PImage choiceImg;
+PImage readingWritingImg;
+// ---- nature
+PImage weatherImg;
+PImage fireImg;
+PImage waterImg;
+PImage airImg;
+PImage earthImg;
+PImage flyingImg;
+PImage fallingImg;
+// ---- characters
+PImage animalsImg;
+PImage fantasticsBeingsImg;
+// ---- social interaction
+PImage friendlyImg;
+PImage physicalAgressionImg;
+PImage sexualImg;
+// ---- common culture
+PImage schoolImg;
+PImage transportationImg;
+PImage technologyImg;
+PImage moneyImg;
+PImage christianityImg;
+PImage deathImg;
+
+// VALORES //
+String [] words;
+String [] vals;
+
+// VALORES PALABRAS CLAVE  //
+// ---- perception
+int visionNum=0;
+int familyNum=0;
+int awarenessNum=0;
+int hearingNum = 0;
+int touchNum = 0;
+int smellNum = 0;
+int tasteNum = 0;
+int perceptualIntensityNum = 0;
+int chromaticColorNum = 0;
+int achromaticColorNum = 0;
+int estheticsNum = 0;
+// ---- perception
+int fearNum = 0;
+int angerNum = 0;
+int sadnessNum = 0;
+int confusionNum = 0;
+int happinesNum = 0;
+// ---- cognition
+int speechNum = 0;
+int imaginationNum = 0;
+int planningNum = 0;
+int effortNum = 0;
+int choiceNum = 0;
+int readingWritingNum = 0;
+// ---- nature
+int weatherNum = 0;
+int fireNum = 0;
+int waterNum = 0;
+int airNum = 0;
+int earthNum = 0;
+int flyingNum = 0;
+int fallingNum = 0;
+// ---- characters
+int animalsNum = 0;
+int fantasticsBeingsNum = 0;
+// ---- social interaction
+int friendlyNum = 0;
+int physicalAgressionNum = 0;
+int sexualNum = 0;
+// ---- common culture
+int schoolNum = 0;
+int transportationNum = 0;
+int technologyNum = 0;
+int moneyNum = 0;
+int christianityNum = 0;
+int deathNum = 0;
+
+// PARA CAMBIO DE PANTALLA  //
+int currentScreen = 0;
+boolean count;
+boolean countState = false;
+
+ 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+void setup() {
+  fullScreen();
+  //size(800, 700);
+  noStroke();
+  smooth();
+  
+// TEXTO  //
+  textAlign(CENTER, CENTER);
+  textSize(30);
+  
+// IMAGENES //
+  // ---- perception
+  visionImg = loadImage ("vision.jpg");
+  familyImg = loadImage ("family.jpg");
+  awarenessImg = loadImage ("Scan 5.jpg");
+  hearingImg = loadImage ("scan 20.jpg"); 
+  touchImg = loadImage ("touch.jpg");
+  smellImg = loadImage ("smell.jpg");
+  tasteImg = loadImage ("scan 1.jpg"); 
+  perceptualIntensityImg = loadImage ("perceptual.jpg");
+  chromaticColorImg = loadImage ("colors.jpg");
+  achromaticColorImg = loadImage ("achomatic.jpg");
+  estheticsImg = loadImage ("esthetics.jpg");
+  // ---- emotions
+  fearImg = loadImage ("fear.jpg");
+  angerImg = loadImage ("anger.jpg");
+  sadnessImg = loadImage ("sadness.jpg");
+  confusionImg = loadImage ("confusion.jpg");
+  happinesImg = loadImage ("happines.jpg");
+  // ---- cognition
+  speechImg = loadImage ("speech.jpg");
+  imaginationImg = loadImage ("imagination.jpg");
+  planningImg = loadImage ("planning.jpg");
+  effortImg = loadImage ("effort.jpg");
+  choiceImg = loadImage ("choice.jpg");
+  readingWritingImg = loadImage ("reading.jpg");
+  // ---- nature
+  weatherImg = loadImage ("weather.jpg");
+  fireImg = loadImage ("fire.jpg");
+  waterImg = loadImage ("water.jpg");
+  airImg = loadImage ("air.jpg");
+  earthImg = loadImage ("earth.jpg");
+  flyingImg = loadImage ("flying.jpg");
+  fallingImg = loadImage ("falling.jpg");
+  // ---- characters
+  animalsImg = loadImage ("animals.jpg");
+  fantasticsBeingsImg = loadImage ("fantasticBeings.jpg");
+  // ---- social interaction
+  friendlyImg = loadImage ("friendly.jpg");
+  physicalAgressionImg = loadImage ("physical_agression.jpg");
+  sexualImg = loadImage ("sexual.jpg");
+  // ---- common culture
+  schoolImg = loadImage ("school.jpg");
+  transportationImg = loadImage ("transportation.jpg");
+  technologyImg = loadImage ("technology.jpg");
+  moneyImg = loadImage ("money.jpg");
+  christianityImg = loadImage ("christianity.jpg");
+  deathImg = loadImage ("death.jpg");
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void count() {
+// CONTADOR DE PALABRAS //
+ // String lines = myText;
+ textSize(15);
+  String entireplay = myText;
+  println(entireplay);
+  words = splitTokens (entireplay, " ,.?!:;[]-\"");
+  concordance = new IntDict();
+  
+  for (int i=0; i<words.length;i++){
+    concordance.increment(words[i].toLowerCase());
+  }
+  concordance.sortValuesReverse();
+  println(concordance);
+  
+   String[] keys = concordance.keyArray();
+  for (int i =0; i< keys.length; i++) {
+    int count = concordance.get(keys[i]);
+    println(keys[i],count);
+  
+// CLASIFICACION DE PALABRAS  //
+
+  if(checkWord(vision,keys[i])){ 
+      visionNum++;
+      } else if(checkWord(family,keys[i])){ familyNum++;
+      } else if(checkWord(awareness,keys[i])){ awarenessNum++;
+      } else if(checkWord(hearing,keys[i])){ hearingNum++;
+      } else if(checkWord(touch,keys[i])){ touchNum++;
+      } else if(checkWord(smell,keys[i])){ smellNum++;
+      } else if(checkWord(taste,keys[i])){ tasteNum++;
+      } else if(checkWord(perceptualIntensity,keys[i])){ perceptualIntensityNum++;
+      } else if(checkWord(chromaticColor,keys[i])){ chromaticColorNum++;
+      } else if(checkWord(achromaticColor,keys[i])){ achromaticColorNum++;
+      } else if(checkWord(esthetics,keys[i])){ estheticsNum++;
+      } else if(checkWord(fear,keys[i])){ fearNum++;    
+      } else if(checkWord(anger,keys[i])){ angerNum++;
+      } else if(checkWord(sadness,keys[i])){ sadnessNum++;
+      } else if(checkWord(confusion,keys[i])){ confusionNum++;
+      } else if(checkWord(happines,keys[i])){ happinesNum++;     
+      } else if(checkWord(speech,keys[i])){ speechNum++;
+      } else if(checkWord(imagination,keys[i])){ imaginationNum++;
+      } else if(checkWord(planning,keys[i])){ planningNum++;
+      } else if(checkWord(effort,keys[i])){ effortNum++;
+      } else if(checkWord(choice,keys[i])){ choiceNum++;
+      } else if(checkWord(readingWriting,keys[i])){ readingWritingNum++;
+      } else if(checkWord(weather,keys[i])){ weatherNum++;
+      } else if(checkWord(fire,keys[i])){ fireNum++;
+      } else if(checkWord(water,keys[i])){ waterNum++;
+      } else if(checkWord(air,keys[i])){ airNum++;
+      } else if(checkWord(earth,keys[i])){ earthNum++;
+      } else if(checkWord(flying,keys[i])){ flyingNum++;
+      } else if(checkWord(falling,keys[i])){ fallingNum++;
+      } else if(checkWord(animals,keys[i])){ animalsNum++;
+      } else if(checkWord(fantasticsBeings,keys[i])){ fantasticsBeingsNum++;
+      } else if(checkWord(friendly,keys[i])){ friendlyNum++;
+      } else if(checkWord(physicalAgression,keys[i])){ physicalAgressionNum++;
+      } else if(checkWord(sexual,keys[i])){ sexualNum++;
+      } else if(checkWord(school,keys[i])){ schoolNum++;
+      } else if(checkWord(transportation,keys[i])){ transportationNum++;
+      } else if(checkWord(technology,keys[i])){ technologyNum++;
+      } else if(checkWord(money,keys[i])){ moneyNum++;
+      } else if(checkWord(christianity,keys[i])){ christianityNum++;
+      } else if(checkWord(death,keys[i])){ deathNum++;
+
+    }
+  }
+    println("vision = " + visionNum);
+    println("family = " + familyNum);
+    println("awareness = " + awarenessNum);
+    println("hearing = " + hearingNum);
+    println("touch = " + touchNum);
+    println("smell = " + smellNum);
+    println("taste = " + tasteNum);
+    println("perceptual intensity = " + perceptualIntensityNum);
+    println("chromatic color= " + chromaticColorNum);
+    println("achromatic color = " + achromaticColorNum);
+    println("esthetics = " + estheticsNum);
+    println("fear = " + fearNum);
+    println("anger = " + angerNum);
+    println("safness = " + sadnessNum);
+    println("confusion = " + confusionNum);
+    println("happines = " + happinesNum);
+    println("speech = " + speechNum);
+    println("imagination = " + imaginationNum);
+    println("planning = " + planningNum);
+    println("effort = " + effortNum);
+    println("choice = " + choiceNum);
+    println("reading/writing = " + readingWritingNum);
+    println("weather = " + weatherNum);
+    println("fire = " + fireNum);
+    println("water = " + waterNum);
+    println("air = " + airNum);
+    println("earth = " + earthNum);
+    println("flying = " + flyingNum);
+    println("falling = " + fallingNum);
+    println("animals = " + animalsNum);
+    println("fantastic beings = " + fantasticsBeingsNum);
+    println("friendly = " + friendlyNum);
+    println("physical agression = " + physicalAgressionNum);
+    println("sexual = " + sexualNum);
+    println("school = " + schoolNum);
+    println("transportation = " + transportationNum);
+    println("technology = " + technologyNum);
+    println("money = " + moneyNum);
+    println("christianity = " + christianityNum);
+    println("death = " + deathNum);
+}
+ 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+void draw() {
+  
+// DIBUJAR PANTALLAS //
+  if(currentScreen == 0) {
+    drawScreenZero();
+  } else if (currentScreen == 1){ 
+    drawScreenOne();
+  } else {
+    drawScreenTwo ();
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+// ------ PANTALLA CERO - ESCRITURA ------ 
+ void drawScreenZero() {
+  background(0);
+  fill(255);
+  text(myText, 0, 0, width, height);
+}
+ 
+// ------ PANTALLA UNO - CONTEO ------ 
+void drawScreenOne() {
+  background(255);
+  fill(0);
+  if(countState) count();
+  textAlign(CENTER, CENTER);
+  text(("money = " + moneyNum),width/2,height/2+15*20);
+  text(("christianity = " + christianityNum),width/2,height/2+15*19);
+  text(("school = " + schoolNum),width/2,height/2+15*18);
+  text(("transportation = " + transportationNum),width/2,height/2+15*17);
+  text(("fantastic beings = " + fantasticsBeingsNum),width/2,height/2+15*16);
+  text(("friendly = " + friendlyNum),width/2,height/2+15*15);
+  text(("air = " + airNum),width/2,height/2+15*14);
+  text(("earth = " + earthNum),width/2,height/2+15*13);
+  text(("perceptual intensity = " + perceptualIntensityNum),width/2,height/2+15*12);
+  text(("anger = " + angerNum),width/2,height/2 +15*11);
+  text(("achromatic color = " + achromaticColorNum),width/2,height/2 +15*10);
+  text(("sadness = " + sadnessNum),width/2,height/2 +15*9);
+  text(("chromatic color= " + chromaticColorNum),width/2,height/2 +15*8);
+  text(("confusion = " + confusionNum),width/2,height/2 +15*7);
+  text(("taste = " + tasteNum),width/2,height/2 +15*6);
+  text(("happines = " + happinesNum),width/2,height/2 +15*5);
+  text(("speech = " + speechNum),width/2,height/2 +15*4);
+  text(("hearing = " + hearingNum),width/2,height/2 +15*3);
+  text(("vision = " + visionNum),width/2,height/2 +15*2);
+  text(("imagination = " + imaginationNum),width/2 ,height/2 +15*1);
+  text(("family = " + familyNum),width/2,height/2);
+  text(("planning = " + planningNum),width/2,height/2 -15*1);
+  text(("awareness = " + awarenessNum),width/2,height/2 -15*2);
+  text(("effort = " + effortNum),width/2,height/2 -15*3);
+  text(("smell = " + smellNum),width/2,height/2 -15*4);
+  text(("choice = " + choiceNum),width/2,height/2 -15*5);
+  text(("awareness = " + awarenessNum),width/2,height/2 -15*6);
+  text(("reading/writing = " + readingWritingNum),width/2,height/2 -15*7);
+  text(("esthetics = " + estheticsNum),width/2,height/2 -15*8);
+  text(("weather = " + weatherNum),width/2,height/2 -15*9);
+  text(("fear = " + fearNum),width/2,height/2 -15*10);
+  text(("fire = " + fireNum),width/2,height/2 -15*11);
+  text(("touch = " + touchNum),width/2,height/2 -15*12);
+  text(("water = " + waterNum),width/2,height/2 -15*13);
+  text(("flying = " + flyingNum),width/2,height/2 -15*14);
+  text(("falling = " + fallingNum),width/2,height/2 -15*15);
+  text(("animals = " + animalsNum),width/2,height/2-15*16);
+  text(("physical agression = " + physicalAgressionNum),width/2,height/2-15*17);
+  text(("sexual = " + sexualNum),width/2,height/2-15*18);
+  text(("technology = " + technologyNum),width/2,height/2-15*19);
+  text(("death = " + deathNum),width/2,height/2-15*20);
+  
+  countState = false;
+}
+
+// ------ PANTALLA DOS - IMAGENES ------
+void drawScreenTwo() {
+  background(0);
+  if (visionNum >= 1){ tint(255, 50); image(visionImg, 0, 0, width, height);}
+  if (familyNum >= 1){ tint(255, 50); image(familyImg, 0, 0, width, height);}
+  if (awarenessNum >= 1){ tint(255, 50); image(awarenessImg, 0, 0, width, height);}
+  if (hearingNum >= 1){ tint(255, 50); image(hearingImg, 0, 0, width, height);}
+  if (touchNum >= 1){ tint(255, 50); image(touchImg, 0, 0, width, height);}
+  if (smellNum >= 1){ tint(255, 50); image(smellImg, 0, 0, width, height);}
+  if (tasteNum >= 1){ tint(255, 50); image(tasteImg, 0, 0, width, height);}
+  if (perceptualIntensityNum >= 1){ tint(255, 50); image(perceptualIntensityImg, 0, 0, width, height);}
+  if (chromaticColorNum >= 1){ tint(255, 50); image(chromaticColorImg, 0, 0, width, height);}
+  if (achromaticColorNum >= 1){ tint(255, 50); image(achromaticColorImg, 0, 0, width, height);}
+  if (estheticsNum >= 1){ tint(255, 50); image(estheticsImg, 0, 0, width, height);}
+  if (fearNum >= 1){ tint(255, 50); image(fearImg, 0, 0, width, height);}
+  
+  if (angerNum >= 1){ tint(255, 50); image(angerImg, 0, 0, width, height);}
+  if (sadnessNum >= 1){ tint(255, 50); image(sadnessImg, 0, 0, width, height);}
+  if (confusionNum >= 1){ tint(255, 50); image(confusionImg, 0, 0, width, height);}
+  if (happinesNum >= 1){ tint(255, 50); image(happinesImg, 0, 0, width, height);}
+
+  if (speechNum >= 1){ tint(255, 50); image(speechImg, 0, 0, width, height);}
+  if (imaginationNum >= 1){ tint(255, 50); image(imaginationImg, 0, 0, width, height);}
+  if (planningNum >= 1){ tint(255, 50); image(planningImg, 0, 0, width, height);}
+  if (effortNum >= 1){ tint(255, 50); image(effortImg, 0, 0, width, height);}
+  if (choiceNum >= 1){ tint(255, 50); image(choiceImg, 0, 0, width, height);}
+  if (readingWritingNum >= 1){ tint(255, 50); image(readingWritingImg, 0, 0, width, height);}
+
+  if (weatherNum >= 1){ tint(255, 50); image(weatherImg, 0, 0, width, height);}
+  if (fireNum >= 1){ tint(255, 50); image(fireImg, 0, 0, width, height);}
+  if (waterNum >= 1){ tint(255, 50); image(waterImg, 0, 0, width, height);}
+  if (airNum >= 1){ tint(255, 50); image(airImg, 0, 0, width, height);}
+  if (earthNum >= 1){ tint(255, 50); image(earthImg, 0, 0, width, height);}
+  if (flyingNum >= 1){ tint(255, 50); image(flyingImg, 0, 0, width, height);}
+  if (fallingNum >= 1){ tint(255, 50); image(fallingImg, 0, 0, width, height);}
+
+  if (animalsNum >= 1){ tint(255, 50); image(animalsImg, 0, 0, width, height);}
+  if (fantasticsBeingsNum >= 1){ tint(255, 50); image(fantasticsBeingsImg, 0, 0, width, height);}
+
+  if (friendlyNum >= 1){ tint(255, 50); image(friendlyImg, 0, 0, width, height);}
+  if (physicalAgressionNum >= 1){ tint(255, 50); image(physicalAgressionImg, 0, 0, width, height);}
+  if (sexualNum >= 1){ tint(255, 50); image(sexualImg, 0, 0, width, height);}
+
+  if (schoolNum >= 1){ tint(255, 50); image(schoolImg, 0, 0, width, height);}
+  if (transportationNum >= 1){ tint(255, 50); image(transportationImg, 0, 0, width, height);}
+  if (technologyNum >= 1){ tint(255, 50); image(technologyImg, 0, 0, width, height);}
+  if (moneyNum >= 1){ tint(255, 50); image(moneyImg, 0, 0, width, height);}
+  if (christianityNum >= 1){ tint(255, 50); image(christianityImg, 0, 0, width, height);}
+  if (deathNum >= 1){ tint(255, 50); image(deathImg, 0, 0, width, height);}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void keyPressed() {
+   if(textControl == 0) {
+     myText = "";
+     textControl++;
+   }
+// CAMBIAR PANTALLAS CON ENTER //
+  if (key == ENTER){
+    if(currentScreen == 0){
+      currentScreen = 1;
+      countState = true;
+    } else if (currentScreen == 1){ 
+      currentScreen = 2;
+      countState = true;
+    } else { 
+      currentScreen = 0;
+    }}
+    
+// PARA PODER ESCRIBIR //
+  if (keyCode == BACKSPACE) {
+    if (myText.length() > 0) {
+      myText = myText.substring(0, myText.length()-1);
+    }
+  } else if (keyCode == DELETE) {
+    myText = "";
+  } else if (keyCode != SHIFT && keyCode != CONTROL && keyCode != ALT) {
+    myText = myText + key;
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// PARA CHEQUEAR LAS PALABRAS CON CONCEPTOS //
+boolean checkWord(String[] search , String s)
+{ boolean check = false;
+  for (int i = 0 ; i<search.length ; i++)
+  {
+    if (s.equalsIgnoreCase(search[i])) check = true;
+  }
+  return check;
+}
